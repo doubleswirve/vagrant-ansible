@@ -1,0 +1,33 @@
+---
+
+- hosts: all
+  sudo: yes
+
+  tasks: 
+  - name: ensure nginx is installed
+    apt: pkg=nginx state=present update_cache=yes
+
+  - name: ensure nginx is running
+    service: name=nginx state=restarted
+
+
+- hosts: web1
+  sudo: yes
+
+  vars:
+    web: web1
+
+  tasks:
+    - name: ensure index.html template is installed
+      template: src=index.j2 dest=/usr/share/nginx/www/index.html
+
+
+- hosts: web2
+  sudo: yes
+
+  vars:
+    web: web2
+
+  tasks:
+    - name: ensure index.html template is installed
+      template: src=index.j2 dest=/usr/share/nginx/www/index.html
